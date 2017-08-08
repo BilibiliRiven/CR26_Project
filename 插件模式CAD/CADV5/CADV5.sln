@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CADV5", "CADV5\CADV5.vcxproj", "{17BE41CC-4E01-4E1C-9FC9-01EB29CA5D68}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Line", "..\Line\Line\Line.vcxproj", "{52710200-DD8A-4643-ABA6-62250CC4BBA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17BE41CC-4E01-4E1C-9FC9-01EB29CA5D68}.Debug|Win32.ActiveCfg = Debug|Win32
+		{17BE41CC-4E01-4E1C-9FC9-01EB29CA5D68}.Debug|Win32.Build.0 = Debug|Win32
+		{17BE41CC-4E01-4E1C-9FC9-01EB29CA5D68}.Release|Win32.ActiveCfg = Release|Win32
+		{17BE41CC-4E01-4E1C-9FC9-01EB29CA5D68}.Release|Win32.Build.0 = Release|Win32
+		{52710200-DD8A-4643-ABA6-62250CC4BBA4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{52710200-DD8A-4643-ABA6-62250CC4BBA4}.Debug|Win32.Build.0 = Debug|Win32
+		{52710200-DD8A-4643-ABA6-62250CC4BBA4}.Release|Win32.ActiveCfg = Release|Win32
+		{52710200-DD8A-4643-ABA6-62250CC4BBA4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
