@@ -28,13 +28,13 @@ int main(int argc, char* argv[])
     return 0;
 
   //有没有xxx接口
-  ISuperMath *pSuperMath = NULL;
-  hr = pObject->QueryInterface(IID_ISuperMath, (void**)&pSuperMath);
+  ISuperMath2 *pSuperMath = NULL;
+  hr = pObject->QueryInterface(IID_ISuperMath2, (void**)&pSuperMath);
   if (hr != S_OK)
     return 0;
 
   long result;
-  hr =pSuperMath->Add(1, 2, &result);
+  hr =pSuperMath->Multi(1, 2, &result);
   if (hr != S_OK)
     return 0;
 

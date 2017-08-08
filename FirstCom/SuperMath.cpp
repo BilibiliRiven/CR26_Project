@@ -62,3 +62,8 @@ HRESULT CSuperMath::Sub(long n1, long n2, long* result)
   *result = n1 - n2;
   return S_OK;
 }
+
+HRESULT CSuperMath::Multi(long n1, long n2, long * result){
+	*result = n1 * n2;
+	return S_OK;
+}
