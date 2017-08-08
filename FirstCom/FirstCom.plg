@@ -1,0 +1,41 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: FirstCom - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSP3886.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "FIRSTCOM_EXPORTS" /FR"Debug/" /Fp"Debug/FirstCom.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"F:\CR26\COM\FirstCom\FirstCom.cpp"
+"F:\CR26\COM\FirstCom\SuperMath.cpp"
+]
+Creating command line "cl.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSP3886.tmp" 
+Creating temporary file "C:\Users\ADMINI~1\AppData\Local\Temp\RSP3896.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:yes /pdb:"Debug/FirstCom.pdb" /debug /machine:I386 /def:".\FirstCom.def" /out:"Debug/FirstCom.dll" /implib:"Debug/FirstCom.lib" /pdbtype:sept 
+.\Debug\StdAfx.obj
+.\Debug\FirstCom.obj
+.\Debug\SuperMath.obj
+]
+Creating command line "link.exe @C:\Users\ADMINI~1\AppData\Local\Temp\RSP3896.tmp"
+<h3>Output Window</h3>
+Compiling...
+FirstCom.cpp
+Generating Code...
+Skipping... (no relevant changes detected)
+SuperMath.cpp
+Linking...
+Creating command line "bscmake.exe /nologo /o"Debug/FirstCom.bsc"  .\Debug\StdAfx.sbr .\Debug\FirstCom.sbr .\Debug\SuperMath.sbr"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+FirstCom.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
