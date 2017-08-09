@@ -2,46 +2,32 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{24c82a8c-dd69-4260-9c8d-8a46e6d121a7}</UniqueIdentifier>
+      <UniqueIdentifier>{0f9c361e-e950-4139-8388-03393b116086}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{1a371a81-e1f8-4c46-9c80-b67144f9c002}</UniqueIdentifier>
+      <UniqueIdentifier>{9a1470ca-d488-40c1-a2b5-4f62defc1260}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{e7b31268-c2c2-4f52-9506-789ecaebb0af}</UniqueIdentifier>
+      <UniqueIdentifier>{f5e61342-00f5-4e53-b163-a00ddb682f48}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FirstCom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SuperMath.cpp">
+    <ClCompile Include="UseCom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Interface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StdAfx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SuperMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="FirstCom.def">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>

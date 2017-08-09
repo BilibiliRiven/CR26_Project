@@ -40,6 +40,32 @@ int main(int argc, char* argv[])
 
   printf("1+2=%d\n", result);
 
+  // 测试我的CMString
+  pfnCreateObj = (CREATE_OBJECT)GetProcAddress(hDll, "CreateObject2");
+  if (pfnCreateObj == NULL)
+  {
+	  FreeLibrary(hDll);
+	  return 0;
+  }
+
+  hr = pfnCreateObj((void**)&pObject);
+  if (hr != S_OK)
+	  return 0;
+
+  //有没有xxx接口
+  ISuperString *pSuperString = NULL;
+  hr = pObject->QueryInterface(IID_ISuperString, (void**)&pSuperString);
+  if (hr != S_OK)
+	  return 0;
+
+  int nNum;
+  hr = pSuperString->Str2n(TEXT("123"), &(nNum));
+  if (hr != S_OK)
+	  return 0;
+
+  printf("%d\n", nNum);
+
+
 
   getchar();
 	return 0;

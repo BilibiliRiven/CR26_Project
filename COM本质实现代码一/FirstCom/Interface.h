@@ -44,6 +44,16 @@ public:
 };
 
 
+// {E2A0A2B4-E6C8-4172-B6A8-456D54E855F9}
+static const GUID IID_ISuperString =
+{ 0xe2a0a2b4, 0xe6c8, 0x4172, { 0xb6, 0xa8, 0x45, 0x6d, 0x54, 0xe8, 0x55, 0xf9 } };
+
+class ISuperString : public IBase{
+public:
+	virtual HRESULT Str2n(TCHAR * pDest, int * pnNum) = 0;
+};
+
+
 HRESULT CreateObject(void **ppObject);
 typedef HRESULT (*CREATE_OBJECT)(void **ppObject);
 #endif
