@@ -58,6 +58,11 @@ CMFCRecvMail3Dlg::CMFCRecvMail3Dlg(CWnd* pParent /*=NULL*/)
 	, m_cstrDownloadDir(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_cstrAccount = TEXT("15171496021@163.com");
+	m_cstrPassword = TEXT("1javajavajava");
+	m_cstrSeverName = TEXT("pop.163.com");
+	m_cstrDownloadDir = TEXT("G:\\DownloadMail");
+	CreateDirectory(m_cstrDownloadDir, NULL);
 }
 
 void CMFCRecvMail3Dlg::DoDataExchange(CDataExchange* pDX)
@@ -77,6 +82,7 @@ BEGIN_MESSAGE_MAP(CMFCRecvMail3Dlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BTN_DOWNLOAD, &CMFCRecvMail3Dlg::OnBnClickedBtnDownload)
 END_MESSAGE_MAP()
 
 
@@ -112,7 +118,7 @@ BOOL CMFCRecvMail3Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO:  在此添加额外的初始化代码
-
+	ConnectDataBase();
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -165,3 +171,176 @@ HCURSOR CMFCRecvMail3Dlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+int CMFCRecvMail3Dlg::ConnectDataBase()
+{
+	int rc = sqlite3_open(DB_NAME, &m_DB);
+
+	// 判断是否有连接故障
+	if (rc){
+		MessageBox(TEXT("数据库连接失败\r\n"));
+	}
+	else{
+		OutputDebugString(TEXT("数据库连接成功\r\n"));
+	}
+	return 0;
+}
+
+
+CString & CMFCRecvMail3Dlg::AddEmloyee(){
+	CString cstrID;
+	return cstrID;
+}
+
+
+CString & CMFCRecvMail3Dlg::DownloadMail(){
+	CoInitialize(NULL);
+	jmail::IPOP3Ptr pPOP3("JMail.POP3");
+	pPOP3->Timeout = 30; // 设置连接服务器超时限制 30S
+
+	_bstr_t bstrAaccount = m_cstrAccount.GetBuffer();
+	_bstr_t bstrPassword = m_cstrPassword.GetBuffer();
+	_bstr_t bstrServerName = m_cstrSeverName.GetBuffer();
+	try
+	{
+		pPOP3->Connect(bstrAaccount, bstrPassword, bstrServerName, 110); // 连接邮件服务器，110为pop3默认端口号
+		// 信箱指针
+		jmail::IMessagesPtr pMessagesBox;
+		// 获取信箱
+		pMessagesBox = pPOP3->Messages;
+
+		long ncMail = NULL; // 邮件数目,
+		pMessagesBox->get_Count(&ncMail);
+		ncMail--; // 实际上只有10封没有读的邮件
+
+		if (!ncMail){
+			// 邮件数目为零
+			throw;
+		}
+
+		// 现在开始逐一检查没一封邮件
+		jmail::IMessagePtr pMail;
+		for (int i = ncMail; i > 0; --i){ // 邮件下标从1开始
+			try{
+				pMessagesBox->get_Item(i, &pMail);
+			}
+			catch (_com_error e){
+				i = i + 1; // 从新读取
+				continue;
+			}
+			// 到这个里表示pMail有效，且正指向一封邮件
+			DATE SendTime; // 用于记录邮件的发送时间
+			SendTime = pMail->GetDate();
+			COleDateTime ColSendTime(SendTime); // 用于记录邮件的发送时间
+			_bstr_t bstrSendTime;
+			bstrSendTime = ColSendTime.Format(TEXT("%Y-%m-%d %H:%M:%S"));
+
+			COleDateTime ColRecvTime(SendTime); // 用于记录邮件的接受的时间
+			_bstr_t bstrRecvTime;
+			bstrRecvTime = ColSendTime.Format(TEXT("%Y-%m-%d %H:%M:%S"));
+
+			
+			// 开始根据邮件发送的时间，建立相应文件夹
+			CString cstrPath;
+			CheckDateCreateDir(ColSendTime, cstrPath);
+
+			jmail::IAttachmentsPtr pAttchmentBox;
+			pAttchmentBox = pMail->Attachments;
+			long lcAttachment = NULL; // 用于检查邮件中的附件数目
+			pAttchmentBox->get_Count(&lcAttachment);
+
+			// 遍历下载邮件的附件
+			for (int i = 0; i < lcAttachment; ++i){
+				jmail::IAttachmentPtr pAttchment;
+				try{
+					pAttchmentBox->get_Item(i, &pAttchment);// 获取邮件附件
+				}
+				catch (_com_error e){
+					i = i - 1; // 从新读取
+					continue;
+				}
+
+				// 判断附件是否已经下载
+				_bstr_t bstrAttName = pAttchment->GetName();
+				if (!MailIsRecv(bstrSendTime, bstrAttName)){
+					pAttchment->Release();
+					continue;
+				}
+
+				cstrPath += TEXT("\\");
+				cstrPath += bstrAttName.GetBSTR();
+
+				_bstr_t bstrFullName = cstrPath;
+				pAttchment->SaveToFile(bstrFullName);
+
+			}
+
+			pAttchmentBox->Release();
+		}
+
+
+		// 释放信箱
+		pMessagesBox->Release();
+		// 与邮件服务器断开连接
+		pPOP3->Disconnect();
+		// 释放
+		//pPOP3->Release();
+	}
+	catch (_com_error e)
+	{
+		AfxMessageBox(_T("连接失败！请检查邮箱地址和密码是否正确！"));
+	}
+	CoUninitialize();
+}
+
+
+BOOL CMFCRecvMail3Dlg::CheckDateCreateDir(COleDateTime & rColDateTime, CString & strDir){
+	int k = rColDateTime.GetDayOfWeek();
+
+	COleDateTime Monday;
+	COleDateTimeSpan TimeSpan(k-1, 0, 0, 0);
+	Monday = rColDateTime - TimeSpan;
+
+	CString cstrDate = Monday.Format(TEXT("%Y-%m-%d"));
+	strDir += m_cstrDownloadDir;
+	strDir += TEXT("\\");
+	strDir += cstrDate;
+	strDir += TEXT("\\");
+
+	CreateDirectory(strDir, NULL);
+	return TRUE;
+}
+
+void CMFCRecvMail3Dlg::OnBnClickedBtnDownload()
+{
+	// TODO:  在此添加控件通知处理程序代码
+	DownloadMail();
+}
+
+BOOL CMFCRecvMail3Dlg::SplitFileName(std::vector<std::string> &, std::string & strFileName){
+	return NULL;
+}
+
+/*
+*	检查邮件信息，判断邮件是否已经收取
+*/
+BOOL CMFCRecvMail3Dlg::MailIsRecv(_bstr_t  RecvTime, _bstr_t strFileName){
+	return TRUE;
+}
+
+
+/*
+*	按时间遍历收件信息
+*/
+BOOL CMFCRecvMail3Dlg::ListMailInfo(COleDateTime & STime, COleDateTime & ETime){
+	return TRUE;
+}
+
+
+/*
+*	检查制定周，的附件接收星狂
+*/
+BOOL CMFCRecvMail3Dlg::ListAWeekMail(COleDateTime & STime, COleDateTime & ETime){
+	return TRUE;
+}
