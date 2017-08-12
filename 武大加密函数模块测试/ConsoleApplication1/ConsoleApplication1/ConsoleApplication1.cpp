@@ -37,7 +37,7 @@ UINT Function1(UINT eax)
 		{
 			Var3 >>= 1;
 
-			if (Var5 % 2 == 0)
+			if (Var5 % 2 == 0) //只会进来一次
 			{
 				Var5 >>= 1;
 			}
@@ -53,11 +53,11 @@ UINT Function1(UINT eax)
 		}
 		Var1 = Var3; // 做了和没做一样
 
-		while (Var0 % 2 == 0)
+		while (Var0 % 2 == 0) // 有几个零进来多少次
 		{
-			Var0 >>= 1;
+			Var0 >>= 1; 
 
-			if (Var4 % 2 == 0)
+			if (Var4 % 2 == 0) // 丢掉的都是零，如果是1就不丢掉，凡是丢掉的情况都相同
 			{
 				Var4 >>= 1;
 			}
@@ -67,14 +67,14 @@ UINT Function1(UINT eax)
 				//                 Var4 += 0x0FFFFFFFB;
 				//                 Var4 = Uint64(Var2, Var4) >> 1;
 				//                 Var2 >>= 1;
-				Var4 = (Var4 + 0x0FFFFFFFB) >> 1;
+				Var4 = (Var4 + 0x0FFFFFFFB) >> 1; // 变成偶数丢掉0
 			}
 		}
 
-		if (Var1 > Var0)
+		if (Var1 > Var0) 
 		{
-			Var3 -= Var0;
-			Var1 = Var3;
+			Var3 -= Var0; // 偶数
+			Var1 = Var3; // 又可以重新开始循环
 
 			if (Var5 >= Var4)
 			{
